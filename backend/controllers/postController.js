@@ -26,3 +26,71 @@ exports.createPost = async (req, res) => {
     });
   }
 };
+
+exports.likeAndUnlikePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+    if (post.likes.includes(req.user._id)) {
+      const index = post.likes.indexOf(req.user._id);
+      post.likes.splice(index, 1);
+      await post.save();
+      return res.status(200).json({
+        success: true,
+        message: "Post Unliked",
+      });
+    } else {
+      post.likes.push(req.user._id);
+      await post.save();
+      return res.status(200).json({
+        success: true,
+        message: "Post Liked",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "No post found",
+      });
+    } else {
+      if (post.owner.toString() !== req.user._id.toString()) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized",
+        });
+      }
+      await Post.findByIdAndDelete(id);
+      const user = await User.findById(req.user._id);
+      const index = user.posts.indexOf(id);
+      user.posts.splice(index, 1);
+      await user.save();
+      return res.status(200).json({
+        success: true,
+        message: "Post deleted successfully",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
