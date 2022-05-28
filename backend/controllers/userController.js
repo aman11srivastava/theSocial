@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const Post = require("../models/PostModel");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -186,6 +187,103 @@ exports.updateProfile = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.deleteProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    const postsOfUser = user.posts;
+    const followers = user.followers;
+    const following = user.following;
+    const userId = user._id;
+
+    await user.remove();
+
+    // Logout user
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+      httpOnly: true,
+    });
+    for (let i = 0; i < postsOfUser.length; i++) {
+      const post = await Post.findById(postsOfUser[i]);
+      await post.remove();
+    }
+
+    for (let i = 0; i < followers.length; i++) {
+      const follower = await User.findById(followers[i]);
+      const index = follower.following.index(userId);
+      follower.following.splice(index, 1);
+      await follower.save();
+    }
+
+    for (let i = 0; i < following.length; i++) {
+      const follows = await User.findById(following[i]);
+      const index = follows.followers.index(userId);
+      follows.followers.splice(index, 1);
+      await follows.save();
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.myProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate("posts");
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate("posts");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    return res.status(200).json({
+      success: true,
+      users,
     });
   } catch (error) {
     res.status(500).json({
