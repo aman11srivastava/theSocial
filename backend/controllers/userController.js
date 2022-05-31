@@ -1,5 +1,7 @@
 const User = require("../models/UserModel");
 const Post = require("../models/PostModel");
+const sendEmail = require("../middlewares/sendEmail");
+const crypto = require("crypto");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -284,6 +286,80 @@ exports.getAllUsers = async (req, res) => {
     return res.status(200).json({
       success: true,
       users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.forgotPassword = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user found with this email id",
+      });
+    }
+    const resetPasswordToken = await user.getResetPasswordToken();
+    await user.save();
+    const resetURL = `${req.protocol}://${req.get(
+      "host"
+    )}/api/password/reset/${resetPasswordToken}`;
+    const message = `Reset your theSocial account password by clicking on this link: \n \n ${resetURL}`;
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: "Reset Password - theSocial",
+        message,
+      });
+      res.status(200).json({
+        success: true,
+        message: `Email Sent to ${user.email}`,
+      });
+    } catch (error) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      await user.save();
+      return res.status(500).json({
+        success: false,
+        message: "Failed to send password reset email, please try again ",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+exports.resetPassword = async (req, res) => {
+  try {
+    const resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Token is invalid or has expired",
+      });
+    }
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+    return res.status(200).json({
+      success: true,
+      message: "Password Updated",
     });
   } catch (error) {
     res.status(500).json({
