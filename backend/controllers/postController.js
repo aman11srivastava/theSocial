@@ -145,3 +145,52 @@ exports.updateCaption = async (req, res) => {
     });
   }
 };
+
+exports.addComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+    if (!req.body.comment) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment cannot be empty",
+      });
+    }
+    let commentExists = false;
+    let commentIndex = 0;
+    post.comments.forEach((comment, index) => {
+      if (comment.user.toString() === req.user._id.toString()) {
+        commentExists = true;
+        commentIndex = index;
+      }
+    });
+    if (commentExists) {
+      post.comments[commentIndex].comment = req.body.comment;
+      await post.save();
+      return res.status(200).json({
+        success: true,
+        message: "Comment Updated",
+      });
+    } else {
+      post.comments.push({
+        user: req.user._id,
+        comment: req.body.comment,
+      });
+      await post.save();
+      return res.status(201).json({
+        success: true,
+        message: "Comment Added",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
