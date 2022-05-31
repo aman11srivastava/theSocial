@@ -194,3 +194,49 @@ exports.addComment = async (req, res) => {
     });
   }
 };
+
+exports.deleteComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found",
+      });
+    }
+    if (post.owner.toString() === req.user._id.toString()) {
+      if (!req.body.commentId) {
+        return res.status(400).json({
+          success: false,
+          message: "No comment selected",
+        });
+      }
+      post.comments.forEach((comment, index) => {
+        if (comment._id.toString() === req.body.commentId.toString()) {
+          return post.comments.splice(index, 1);
+        }
+      });
+      post.save();
+      return res.status(200).json({
+        success: true,
+        message: "You have deleted one comment",
+      });
+    } else {
+      post.comments.forEach((comment, index) => {
+        if (comment.user.toString() === req.user._id.toString()) {
+          return post.comments.splice(index, 1);
+        }
+      });
+      await post.save();
+      return res.status(200).json({
+        success: true,
+        message: "You have deleted your comment",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
