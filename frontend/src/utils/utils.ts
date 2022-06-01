@@ -1,1 +1,4 @@
-export const temp = "temp"
+export type userReducerActionType = {
+    type: string
+    payload: any
+}
