@@ -1,4 +1,6 @@
 import {
+    ALL_USERS_FAIL,
+    ALL_USERS_REQUEST, ALL_USERS_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST, LOAD_USER_SUCCESS,
     LOGIN_FAIL,
@@ -17,7 +19,15 @@ interface initialStateType {
 
 const initialState: initialStateType = {
     isAuthenticated: false,
-    user: {}
+    user: {
+        _id: "",
+        name: "",
+        email: "",
+        avatar: {
+            url: "",
+            public_id: ""
+        },
+    }
 }
 export const userReducer = (state: initialStateType = initialState, action: userReducerActionType) => {
     switch (action.type) {
@@ -46,6 +56,32 @@ export const userReducer = (state: initialStateType = initialState, action: user
                 isAuthenticated: false,
                 user: null,
                 error: action.payload
+            }
+        default:
+            return state;
+    }
+}
+
+export const allUsersReducer = (state: userStructure[] = [], action: userReducerActionType) => {
+    switch (action.type) {
+        case ALL_USERS_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                users: []
+            }
+        case ALL_USERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                users: action.payload
+            }
+        case ALL_USERS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+                users: []
             }
         default:
             return state;

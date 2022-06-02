@@ -16,10 +16,11 @@ export type userRegistrationObj = {
 }
 
 export interface userStructure {
-    name?: string
-    email?: string
-    avatar?: imageStructure
+    name: string
+    email: string
+    avatar: imageStructure
     posts?: any[]
     followers?: any[]
     following?: any[]
+    _id: string
 }

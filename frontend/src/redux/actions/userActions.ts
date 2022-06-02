@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {
+    ALL_USERS_FAIL, ALL_USERS_REQUEST, ALL_USERS_SUCCESS,
     LOAD_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_SUCCESS,
     LOGIN_FAIL,
     LOGIN_REQUEST,
@@ -39,8 +40,17 @@ export const loadUser = () => async (dispatch: Dispatch) => {
         dispatch({type: LOAD_USER_REQUEST});
         const {data} = await axios.get('/api/me');
         dispatch({type: LOAD_USER_SUCCESS, payload: data.user});
-    }
-    catch (err: any) {
+    } catch (err: any) {
         dispatch({type: LOAD_USER_FAIL, payload: err.response.data.message});
+    }
+}
+
+export const getAllUsers = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: ALL_USERS_REQUEST});
+        const {data} = await axios.get('/api/users');
+        dispatch({type: ALL_USERS_SUCCESS, payload: data.users});
+    } catch (err: any) {
+        dispatch({type: ALL_USERS_FAIL, payload: err.response.data.message});
     }
 }
