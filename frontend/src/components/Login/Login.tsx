@@ -22,7 +22,7 @@ export const Login = () => {
         <>
             <div className={"login"}>
                 <form className={"loginForm"} onSubmit={handleLogin}>
-                    <Typography variant={"h3"} style={{padding: '2vmax'}}>theSocial</Typography>
+                    <Typography variant={"h3"} style={{padding: '2vmax'}}>theSocial | Login</Typography>
                     <input value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                            type={"email"} placeholder={"Email Address"} required={true}/>
                     <input value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
