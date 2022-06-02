@@ -14,3 +14,12 @@ export type userRegistrationObj = {
     password: string
     image?: imageStructure
 }
+
+export interface userStructure {
+    name?: string
+    email?: string
+    avatar?: imageStructure
+    posts?: any[]
+    followers?: any[]
+    following?: any[]
+}

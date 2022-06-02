@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {
+    LOAD_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_SUCCESS,
     LOGIN_FAIL,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -30,5 +31,16 @@ export const register = (user: userRegistrationObj) => async (dispatch: Dispatch
         dispatch({type: REGISTER_SUCCESS, payload: data.user});
     } catch (err: any) {
         dispatch({type: REGISTER_FAIL, payload: err.response.data.message});
+    }
+}
+
+export const loadUser = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: LOAD_USER_REQUEST});
+        const {data} = await axios.get('/api/me');
+        dispatch({type: LOAD_USER_SUCCESS, payload: data.user});
+    }
+    catch (err: any) {
+        dispatch({type: LOAD_USER_FAIL, payload: err.response.data.message});
     }
 }
