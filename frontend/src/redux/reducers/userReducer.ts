@@ -1,11 +1,11 @@
 import {
     ALL_USERS_FAIL,
-    ALL_USERS_REQUEST, ALL_USERS_SUCCESS,
+    ALL_USERS_REQUEST, ALL_USERS_SUCCESS, CLEAR_ERRORS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST, LOAD_USER_SUCCESS,
     LOGIN_FAIL,
     LOGIN_REQUEST,
-    LOGIN_SUCCESS,
+    LOGIN_SUCCESS, POST_OF_FOLLOWING_FAIL, POST_OF_FOLLOWING_REQUEST, POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
     REGISTER_SUCCESS
@@ -85,5 +85,32 @@ export const allUsersReducer = (state: userStructure[] = [], action: userReducer
             }
         default:
             return state;
+    }
+}
+
+export const postOfFollowingReducer = (state = {}, action: userReducerActionType) => {
+    switch (action.type) {
+        case POST_OF_FOLLOWING_REQUEST:
+            return {
+                loading: true
+            }
+        case POST_OF_FOLLOWING_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                posts: action.payload
+            }
+        case POST_OF_FOLLOWING_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                error: null
+            }
+        default:
+            return state
     }
 }

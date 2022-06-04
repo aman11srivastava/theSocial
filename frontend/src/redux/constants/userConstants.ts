@@ -13,3 +13,9 @@ export const LOAD_USER_REQUEST: string = "LOAD_USER_REQUEST";
 export const ALL_USERS_REQUEST: string = "ALL_USERS_REQUEST";
 export const ALL_USERS_SUCCESS: string = "ALL_USERS_SUCCESS";
 export const ALL_USERS_FAIL: string = "ALL_USERS_FAIL";
+
+export const POST_OF_FOLLOWING_REQUEST: string = "POST_OF_FOLLOWING_REQUEST";
+export const POST_OF_FOLLOWING_SUCCESS: string = "POST_OF_FOLLOWING_SUCCESS";
+export const POST_OF_FOLLOWING_FAIL: string = "POST_OF_FOLLOWING_FAIL";
+
+export const CLEAR_ERRORS: string = "CLEAR_ERRORS";

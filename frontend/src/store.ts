@@ -1,11 +1,12 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
-import {allUsersReducer, userReducer} from "./redux/reducers/userReducer";
+import {allUsersReducer, postOfFollowingReducer, userReducer} from "./redux/reducers/userReducer";
 
 const reducer = combineReducers({
     user: userReducer,
-    allUsers: allUsersReducer
+    allUsers: allUsersReducer,
+    postsOfFollowing: postOfFollowingReducer
 });
 
 let initialState = {};

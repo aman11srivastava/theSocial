@@ -24,3 +24,14 @@ export interface userStructure {
     following?: any[]
     _id: string
 }
+
+export interface postStructure {
+    postId: string
+    caption: string
+    postImage: string
+    likes: any[]
+    comments: any[]
+    ownerImage: string
+    ownerName: string
+    ownerId: string
+}
