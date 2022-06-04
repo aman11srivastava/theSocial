@@ -11,7 +11,7 @@ interface PostProps extends postStructure {
 }
 
 export const Post = (props: PostProps) => {
-    const {isAccount, isDelete, likes, ownerId, ownerImage, postImage, postId, ownerName, caption} = props;
+    const {isAccount, isDelete, likes, ownerId, ownerImage, postImage, postId, ownerName, caption, comments} = props;
     const [liked, setLiked] = useState<boolean>(false);
 
     function likePostHandler() {
@@ -24,7 +24,7 @@ export const Post = (props: PostProps) => {
                 <div className="postHeader">
                     {isAccount && <Button><MoreVert/></Button>}
                 </div>
-                <img src={postImage} alt={postId}/>
+                <img src={postImage} alt={"post image " + postId }/>
                 <div className="postDetails">
                     <Avatar src={ownerImage} alt={ownerName} sx={{
                         height: '3vmax',

@@ -41,7 +41,7 @@ export const loadUser = () => async (dispatch: Dispatch) => {
         const {data} = await axios.get('/api/me');
         dispatch({type: LOAD_USER_SUCCESS, payload: data?.user});
     } catch (err: any) {
-        dispatch({type: LOAD_USER_FAIL, payload: err.response.data.message});
+        dispatch({type: LOAD_USER_FAIL, payload: err?.response?.data?.message});
     }
 }
 
@@ -59,8 +59,8 @@ export const getPostsOfFollowing = () => async (dispatch: Dispatch) => {
     try {
         dispatch({type: POST_OF_FOLLOWING_REQUEST});
         const {data} = await axios.get(`/api/posts`);
-        dispatch({type: POST_OF_FOLLOWING_SUCCESS, payload: data.posts});
+        dispatch({type: POST_OF_FOLLOWING_SUCCESS, payload: data?.posts});
     } catch (err: any) {
-        dispatch({type: POST_OF_FOLLOWING_FAIL, payload: err.response.data.message});
+        dispatch({type: POST_OF_FOLLOWING_FAIL, payload: err?.response?.data?.message});
     }
 }

@@ -35,3 +35,12 @@ export interface postStructure {
     ownerName: string
     ownerId: string
 }
+
+export type postStructureType = {
+    _id: string
+    caption: string
+    image: imageStructure
+    owner: userStructure
+    likes: any[]
+    comments: any[]
+}
