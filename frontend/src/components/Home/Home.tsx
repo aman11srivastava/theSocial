@@ -23,7 +23,7 @@ export const Home = () => {
                 {loading ? <Loader color={"white"}/> : (
                     <div className={"homeleft"}>
                         {posts && posts.length > 0 ? posts.map((post: postStructureType) => (
-                            <Post caption={post.caption} postId={post._id} comments={post.comments} isAccount={false}
+                            <Post key={post._id} caption={post.caption} postId={post._id} comments={post.comments} isAccount={false}
                                   isDelete={false} likes={post.likes}
                                   ownerId={post.owner?._id} ownerImage={post.owner?.avatar?.url}
                                   ownerName={post.owner.name} postImage={post.image?.url}

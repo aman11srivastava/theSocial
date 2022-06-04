@@ -1,9 +1,15 @@
-import React, {useState} from "react";
+import React, {Dispatch, useEffect, useState} from "react";
 import './post.css';
 import {Avatar, Button, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import {ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert} from "@mui/icons-material";
 import {postStructure} from "../../utils/utils";
+import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
+import {likePost} from "../../redux/actions/postActions";
+import {Alert, Stack} from '@mui/material/';
+import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
+import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
+import {getPostsOfFollowing} from "../../redux/actions/userActions";
 
 interface PostProps extends postStructure {
     isDelete: boolean
@@ -13,10 +19,41 @@ interface PostProps extends postStructure {
 export const Post = (props: PostProps) => {
     const {isAccount, isDelete, likes, ownerId, ownerImage, postImage, postId, ownerName, caption, comments} = props;
     const [liked, setLiked] = useState<boolean>(false);
+    const [alert, setAlert] = useState<boolean>(false);
+    const dispatch: Dispatch<any> = useDispatch();
+    const {message, error} = useSelector((state: RootStateOrAny) => state?.like);
+    const {user} = useSelector((state: RootStateOrAny) => state?.user);
 
-    function likePostHandler() {
+    async function likePostHandler() {
         setLiked(!liked);
+        await dispatch(likePost(postId));
+        if (isAccount) {
+
+        } else {
+            dispatch(getPostsOfFollowing());
+        }
+        if (!alert) {
+            setAlert(true);
+        }
+        setTimeout(() => {
+            setAlert(false)
+        }, 2000);
+        dispatch({type: CLEAR_MESSAGE});
     }
+
+    useEffect(() => {
+        if (error) {
+            dispatch({type: CLEAR_ERRORS});
+        }
+    }, [error, dispatch])
+
+    useEffect(() => {
+        likes.forEach(item => {
+            if (item?._id.toString() === user?._id.toString()) {
+                setLiked(true);
+            }
+        })
+    }, [likes, user?._id])
 
     return (
         <>
@@ -24,7 +61,7 @@ export const Post = (props: PostProps) => {
                 <div className="postHeader">
                     {isAccount && <Button><MoreVert/></Button>}
                 </div>
-                <img src={postImage} alt={"post image " + postId }/>
+                <img src={postImage} alt={"post image " + postId}/>
                 <div className="postDetails">
                     <Avatar src={ownerImage} alt={ownerName} sx={{
                         height: '3vmax',
@@ -42,7 +79,7 @@ export const Post = (props: PostProps) => {
                     cursor: "pointer",
                     margin: '1vmax 2vmax'
                 }}>
-                    <Typography>{likes.length} likes</Typography>
+                    <Typography>{likes.length} {likes.length === 1 ? `like` : 'likes'}</Typography>
                 </button>
                 <div className="postFooter">
                     <Button onClick={likePostHandler}>
@@ -57,6 +94,9 @@ export const Post = (props: PostProps) => {
                     }
                 </div>
             </div>
+            {alert && <Stack sx={{width: '100%'}} spacing={2}>
+                <Alert severity="success">{message}</Alert>
+            </Stack>}
         </>
     )
 }
