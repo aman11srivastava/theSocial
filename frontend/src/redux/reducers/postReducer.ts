@@ -5,7 +5,7 @@ import {
     CLEAR_MESSAGE, DELETE_COMMENT_FAIL, DELETE_COMMENT_REQUEST, DELETE_COMMENT_SUCCESS,
     LIKE_POST_FAIL,
     LIKE_POST_REQUEST,
-    LIKE_POST_SUCCESS
+    LIKE_POST_SUCCESS, MY_POSTS_FAIL, MY_POSTS_REQUEST, MY_POSTS_SUCCESS
 } from "../constants/postConstants";
 import {CLEAR_ERRORS} from "../constants/userConstants";
 
@@ -43,5 +43,32 @@ export const likePostReducer = (state = {}, action: userReducerActionType) => {
             }
         default:
             return state
+    }
+}
+
+export const myPostsReducer = (state = {posts: []}, action: userReducerActionType) => {
+    switch (action.type) {
+        case MY_POSTS_REQUEST:
+            return {
+                loading: true
+            }
+        case MY_POSTS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                posts: action.payload
+            }
+        case MY_POSTS_FAIL:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                error: null
+            }
+        default:
+            return state;
     }
 }

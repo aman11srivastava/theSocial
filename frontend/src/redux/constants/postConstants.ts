@@ -10,3 +10,7 @@ export const ADD_COMMENT_FAIL: string = "ADD_COMMENT_FAIL";
 export const DELETE_COMMENT_REQUEST: string = "DELETE_COMMENT_REQUEST";
 export const DELETE_COMMENT_SUCCESS: string = "DELETE_COMMENT_SUCCESS";
 export const DELETE_COMMENT_FAIL: string = "DELETE_COMMENT_FAIL";
+
+export const MY_POSTS_REQUEST: string = "MY_POSTS_REQUEST";
+export const MY_POSTS_SUCCESS: string = "MY_POSTS_SUCCESS";
+export const MY_POSTS_FAIL: string = "MY_POSTS_FAIL";
