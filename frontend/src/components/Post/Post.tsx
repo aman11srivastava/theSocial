@@ -98,7 +98,7 @@ export const Post = (props: PostProps) => {
                     }
                 </div>
                 <LikesModal likes={likes} open={open} setOpen={setOpen}/>
-                <CommentsModal postId={postId} commentsToggle={commentsToggle} setCommentsToggle={setCommentsToggle}/>
+                <CommentsModal comments={comments} isAccount={isAccount} postId={postId} commentsToggle={commentsToggle} setCommentsToggle={setCommentsToggle}/>
             </div>
             {alert && <Stack sx={{width: '100%'}} spacing={2}>
                 <Alert severity="success">{message}</Alert>
