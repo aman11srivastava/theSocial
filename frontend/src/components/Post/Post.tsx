@@ -10,6 +10,7 @@ import {Alert, Stack} from '@mui/material/';
 import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
 import {getPostsOfFollowing} from "../../redux/actions/userActions";
+import LikesModal from "../LikesModal/LikesModal";
 
 interface PostProps extends postStructure {
     isDelete: boolean
@@ -23,6 +24,7 @@ export const Post = (props: PostProps) => {
     const dispatch: Dispatch<any> = useDispatch();
     const {message, error} = useSelector((state: RootStateOrAny) => state?.like);
     const {user} = useSelector((state: RootStateOrAny) => state?.user);
+    const [open, setOpen] = useState<boolean>(false);
 
     async function likePostHandler() {
         setLiked(!liked);
@@ -73,7 +75,7 @@ export const Post = (props: PostProps) => {
                     <Typography fontWeight={100} color={"rgba(0, 0, 0, 0.582)"}
                                 style={{alignSelf: 'center'}}>{caption}</Typography>
                 </div>
-                <button style={{
+                <button disabled={likes.length === 0} onClick={() => setOpen(!open)} style={{
                     border: "none",
                     backgroundColor: "#ffffff",
                     cursor: "pointer",
@@ -93,6 +95,7 @@ export const Post = (props: PostProps) => {
                     </Button>
                     }
                 </div>
+                <LikesModal likes={likes} open={open} setOpen={setOpen}/>
             </div>
             {alert && <Stack sx={{width: '100%'}} spacing={2}>
                 <Alert severity="success">{message}</Alert>
