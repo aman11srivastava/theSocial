@@ -1,5 +1,11 @@
 import {Dispatch} from "redux";
-import {LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS} from "../constants/postConstants";
+import {
+    ADD_COMMENT_FAIL,
+    ADD_COMMENT_REQUEST, ADD_COMMENT_SUCCESS,
+    LIKE_POST_FAIL,
+    LIKE_POST_REQUEST,
+    LIKE_POST_SUCCESS
+} from "../constants/postConstants";
 import axios from "axios";
 
 export const likePost = (id: string) => async (dispatch: Dispatch) => {
@@ -9,5 +15,16 @@ export const likePost = (id: string) => async (dispatch: Dispatch) => {
         dispatch({type: LIKE_POST_SUCCESS, payload: data.message});
     } catch (err: any) {
         dispatch({type: LIKE_POST_FAIL, payload: err?.response.data?.message});
+    }
+}
+
+export const addComment = (id: string, comment: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: ADD_COMMENT_REQUEST});
+        const config = {headers: {"Content-Type": "application/json"}};
+        const {data} = await axios.put(`/api/post/comment/${id}`, {comment}, config);
+        dispatch({type: ADD_COMMENT_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: ADD_COMMENT_FAIL, payload: err?.response?.data?.message});
     }
 }

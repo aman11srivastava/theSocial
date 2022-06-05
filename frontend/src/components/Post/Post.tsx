@@ -11,6 +11,7 @@ import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
 import {getPostsOfFollowing} from "../../redux/actions/userActions";
 import LikesModal from "../LikesModal/LikesModal";
+import CommentsModal from "../CommentsModal/CommentsModal";
 
 interface PostProps extends postStructure {
     isDelete: boolean
@@ -21,10 +22,11 @@ export const Post = (props: PostProps) => {
     const {isAccount, isDelete, likes, ownerId, ownerImage, postImage, postId, ownerName, caption, comments} = props;
     const [liked, setLiked] = useState<boolean>(false);
     const [alert, setAlert] = useState<boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [commentsToggle, setCommentsToggle] = useState<boolean>(false);
     const dispatch: Dispatch<any> = useDispatch();
     const {message, error} = useSelector((state: RootStateOrAny) => state?.like);
     const {user} = useSelector((state: RootStateOrAny) => state?.user);
-    const [open, setOpen] = useState<boolean>(false);
 
     async function likePostHandler() {
         setLiked(!liked);
@@ -87,7 +89,7 @@ export const Post = (props: PostProps) => {
                     <Button onClick={likePostHandler}>
                         {liked ? <Favorite style={{color: "#f0225f"}}/> : <FavoriteBorder/>}
                     </Button>
-                    <Button>
+                    <Button onClick={() => setCommentsToggle(!commentsToggle)}>
                         <ChatBubbleOutline/>
                     </Button>
                     {isDelete && <Button>
@@ -96,6 +98,7 @@ export const Post = (props: PostProps) => {
                     }
                 </div>
                 <LikesModal likes={likes} open={open} setOpen={setOpen}/>
+                <CommentsModal postId={postId} commentsToggle={commentsToggle} setCommentsToggle={setCommentsToggle}/>
             </div>
             {alert && <Stack sx={{width: '100%'}} spacing={2}>
                 <Alert severity="success">{message}</Alert>
