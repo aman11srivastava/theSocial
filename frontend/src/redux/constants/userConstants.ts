@@ -19,3 +19,7 @@ export const POST_OF_FOLLOWING_SUCCESS: string = "POST_OF_FOLLOWING_SUCCESS";
 export const POST_OF_FOLLOWING_FAIL: string = "POST_OF_FOLLOWING_FAIL";
 
 export const CLEAR_ERRORS: string = "CLEAR_ERRORS";
+
+export const LOGOUT_REQUEST: string = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS: string = "LOGOUT_SUCCESS";
+export const LOGOUT_FAIL: string = "LOGOUT_FAIL";

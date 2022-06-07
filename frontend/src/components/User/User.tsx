@@ -8,7 +8,8 @@ interface UserProps {
     avatar: string
 }
 
-export const User = ({userId, avatar, name}: UserProps) => {
+export const User = (props: UserProps) => {
+    const {userId, avatar, name} = props;
     return (
         <>
             <Link to={`/user/${userId}`} className={"homeUser"}>

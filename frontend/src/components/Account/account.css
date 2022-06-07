@@ -86,3 +86,15 @@
         margin-top: 6vw;
     }
 }
+
+.followInfoMessageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    margin-top: auto;
+}
+
+.followInfoMessageContainer > p {
+    color: lightslategray;
+}

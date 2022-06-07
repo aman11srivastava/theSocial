@@ -44,3 +44,6 @@ export type postStructureType = {
     likes: any[]
     comments: any[]
 }
+
+export const following: string = "following";
+export const followers: string = "followers";
