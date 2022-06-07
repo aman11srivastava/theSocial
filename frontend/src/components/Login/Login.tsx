@@ -14,7 +14,6 @@ export const Login = () => {
     function handleLogin(e: SyntheticEvent) {
         e.preventDefault();
         dispatch(login(email, password));
-        alert("Login successful")
         navigate("account");
     }
 
