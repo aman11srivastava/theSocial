@@ -145,7 +145,7 @@ exports.logoutUser = async (req, res) => {
 
 exports.uppdatePassword = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("+password");
+    const user = await User.findById(req.user._id).select("+password").populate("posts followers following");
     console.log(req.body);
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
