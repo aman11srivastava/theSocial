@@ -1,23 +1,27 @@
 const Post = require("../models/PostModel");
 const User = require("../models/UserModel");
+const cloudinary = require("cloudinary");
 
 exports.createPost = async (req, res) => {
   try {
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.image, {
+      folder: "theSocial-posts"
+    });
     const newPostData = {
       caption: req.body.caption,
       image: {
-        public_id: "req.body.public_id",
-        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
       owner: req.user._id,
     };
     const post = await Post.create(newPostData);
     const user = await User.findById(req.user._id);
-    user.posts.push(post._id);
+    user.posts.unshift(post._id);
     await user.save();
     res.status(201).json({
       success: true,
-      post,
+      message: "Post created",
     });
   } catch (err) {
     res.status(500).json({

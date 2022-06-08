@@ -14,3 +14,7 @@ export const DELETE_COMMENT_FAIL: string = "DELETE_COMMENT_FAIL";
 export const MY_POSTS_REQUEST: string = "MY_POSTS_REQUEST";
 export const MY_POSTS_SUCCESS: string = "MY_POSTS_SUCCESS";
 export const MY_POSTS_FAIL: string = "MY_POSTS_FAIL";
+
+export const CREATE_POST_REQUEST: string = "CREATE_POST_REQUEST";
+export const CREATE_POST_SUCCESS: string = "CREATE_POST_SUCCESS";
+export const CREATE_POST_FAIL: string = "CREATE_POST_FAIL";

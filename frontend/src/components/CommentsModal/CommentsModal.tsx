@@ -1,7 +1,7 @@
 import React, {ChangeEvent, Dispatch, SyntheticEvent, useState} from 'react';
 import {Button, Dialog, Typography} from "@mui/material";
 import {useDispatch} from "react-redux";
-import {addComment} from "../../redux/actions/postActions";
+import {addComment, getMyPosts} from "../../redux/actions/postActions";
 import {getPostsOfFollowing} from "../../redux/actions/userActions";
 import CommentCard from "../CommentCard/CommentCard";
 
@@ -27,7 +27,7 @@ export const CommentsModal = (props: CommentsModalProps) => {
         await dispatch(addComment(postId, comment));
         await setComment("");
         if (isAccount) {
-
+            dispatch(getMyPosts())
         } else {
             dispatch(getPostsOfFollowing())
         }

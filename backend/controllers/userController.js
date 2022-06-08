@@ -374,7 +374,7 @@ exports.getMyPosts = async (req, res) => {
     const user = await User.findById(req.user._id);
     const posts = [];
     for (let i = 0; i < user.posts.length; i++) {
-       const post = await Post.findById(user.posts[i]).populate("likes comments.user");
+       const post = await Post.findById(user.posts[i]).populate("likes comments.user owner");
        posts.push(post);
     }
     return res.status(200).json({

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert} from "@mui/icons-material";
 import {postStructure} from "../../utils/utils";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {likePost} from "../../redux/actions/postActions";
+import {getMyPosts, likePost} from "../../redux/actions/postActions";
 import {Alert, Stack} from '@mui/material/';
 import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
@@ -25,14 +25,14 @@ export const Post = (props: PostProps) => {
     const [open, setOpen] = useState<boolean>(false);
     const [commentsToggle, setCommentsToggle] = useState<boolean>(false);
     const dispatch: Dispatch<any> = useDispatch();
-    const {message, error} = useSelector((state: RootStateOrAny) => state?.like);
+    const {message, error} = useSelector((state: RootStateOrAny) => state?.post);
     const {user} = useSelector((state: RootStateOrAny) => state?.user);
 
     async function likePostHandler() {
         setLiked(!liked);
         await dispatch(likePost(postId));
         if (isAccount) {
-
+            dispatch(getMyPosts())
         } else {
             dispatch(getPostsOfFollowing());
         }
