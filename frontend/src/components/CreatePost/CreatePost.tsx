@@ -5,12 +5,15 @@ import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {createPost} from "../../redux/actions/postActions";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
 import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
+import {NavigateFunction, useNavigate} from "react-router-dom";
+import {loadUser} from "../../redux/actions/userActions";
 
 export const CreatePost = () => {
     const [image, setPost] = useState<string | ArrayBuffer | null>(null);
     const [caption, setCaption] = useState<string>("");
     const {message, loading, error} = useSelector((state: RootStateOrAny) => state?.post);
     const dispatch: Dispatch<any> = useDispatch();
+    const navigate: NavigateFunction = useNavigate();
 
     function imageHandler(e: any) {
         const file = e.target.files[0];
@@ -23,9 +26,11 @@ export const CreatePost = () => {
         }
     }
 
-    function createPostHandler(e: SyntheticEvent) {
+    async function createPostHandler(e: SyntheticEvent) {
         e.preventDefault();
-        dispatch(createPost(caption, image))
+        await dispatch(createPost(caption, image))
+        await dispatch(loadUser());
+        navigate('/');
     }
 
     useEffect(() => {

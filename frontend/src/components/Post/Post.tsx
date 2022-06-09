@@ -9,7 +9,7 @@ import {deletePost, getMyPosts, likePost} from "../../redux/actions/postActions"
 import {Alert, Stack} from '@mui/material/';
 import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
-import {getPostsOfFollowing} from "../../redux/actions/userActions";
+import {getPostsOfFollowing, loadUser} from "../../redux/actions/userActions";
 import LikesModal from "../LikesModal/LikesModal";
 import CommentsModal from "../CommentsModal/CommentsModal";
 import UpdateCaptionModal from "../UpdateCaptionModal/UpdateCaptionModal";
@@ -64,6 +64,7 @@ export const Post = (props: PostProps) => {
     async function deletePostHandler() {
         await dispatch(deletePost(postId));
         dispatch(getMyPosts());
+        dispatch(loadUser());
     }
 
     return (
