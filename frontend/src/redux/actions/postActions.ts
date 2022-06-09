@@ -6,7 +6,7 @@ import {
     CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS,
     DELETE_COMMENT_FAIL,
     DELETE_COMMENT_REQUEST,
-    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS,
     LIKE_POST_FAIL,
     LIKE_POST_REQUEST,
     LIKE_POST_SUCCESS,
@@ -77,5 +77,15 @@ export const updateCaption = (id: string, newCaption: string) => async (dispatch
         dispatch({type: UPDATE_CAPTION_SUCCESS, payload: data?.message});
     } catch (err: any) {
         dispatch({type: UPDATE_CAPTION_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const deletePost = (id: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: DELETE_POST_REQUEST});
+        const {data} = await axios.delete(`/api/post/${id}`);
+        dispatch({type: DELETE_POST_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: DELETE_POST_FAIL, payload: err?.response?.data?.message});
     }
 }

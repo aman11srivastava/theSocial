@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {ChatBubbleOutline, DeleteOutline, Favorite, FavoriteBorder, MoreVert} from "@mui/icons-material";
 import {postStructure} from "../../utils/utils";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {getMyPosts, likePost} from "../../redux/actions/postActions";
+import {deletePost, getMyPosts, likePost} from "../../redux/actions/postActions";
 import {Alert, Stack} from '@mui/material/';
 import {CLEAR_MESSAGE} from "../../redux/constants/postConstants";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
@@ -61,6 +61,11 @@ export const Post = (props: PostProps) => {
         })
     }, [likes, user?._id])
 
+    async function deletePostHandler() {
+        await dispatch(deletePost(postId));
+        dispatch(getMyPosts());
+    }
+
     return (
         <>
             <div className={"post"}>
@@ -94,14 +99,16 @@ export const Post = (props: PostProps) => {
                     <Button onClick={() => setCommentsToggle(!commentsToggle)}>
                         <ChatBubbleOutline/>
                     </Button>
-                    {isDelete && <Button>
+                    {isDelete && <Button onClick={deletePostHandler}>
                         <DeleteOutline/>
                     </Button>
                     }
                 </div>
                 <LikesModal likes={likes} open={open} setOpen={setOpen}/>
-                <CommentsModal comments={comments} isAccount={isAccount} postId={postId} commentsToggle={commentsToggle} setCommentsToggle={setCommentsToggle}/>
-                <UpdateCaptionModal prevCaption={caption} postId={postId} open={openUpdateCaptionModal} setOpen={setOpenUpdateCaptionModal}/>
+                <CommentsModal comments={comments} isAccount={isAccount} postId={postId} commentsToggle={commentsToggle}
+                               setCommentsToggle={setCommentsToggle}/>
+                <UpdateCaptionModal prevCaption={caption} postId={postId} open={openUpdateCaptionModal}
+                                    setOpen={setOpenUpdateCaptionModal}/>
             </div>
             {alert && <Stack sx={{width: '100%'}} spacing={2}>
                 <Alert severity="success">{message}</Alert>

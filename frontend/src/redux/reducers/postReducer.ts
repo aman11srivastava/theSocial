@@ -8,7 +8,7 @@ import {
     CREATE_POST_SUCCESS,
     DELETE_COMMENT_FAIL,
     DELETE_COMMENT_REQUEST,
-    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS,
     LIKE_POST_FAIL,
     LIKE_POST_REQUEST,
     LIKE_POST_SUCCESS,
@@ -25,6 +25,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case DELETE_COMMENT_REQUEST:
         case CREATE_POST_REQUEST:
         case UPDATE_CAPTION_REQUEST:
+        case DELETE_POST_REQUEST:
             return {
                 loading: true
             }
@@ -33,6 +34,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case DELETE_COMMENT_SUCCESS:
         case CREATE_POST_SUCCESS:
         case UPDATE_CAPTION_SUCCESS:
+        case DELETE_POST_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -43,6 +45,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case DELETE_COMMENT_FAIL:
         case CREATE_POST_FAIL:
         case UPDATE_CAPTION_FAIL:
+        case DELETE_POST_FAIL:
             return {
                 ...state,
                 loading: false,
