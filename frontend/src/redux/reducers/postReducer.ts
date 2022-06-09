@@ -14,7 +14,7 @@ import {
     LIKE_POST_SUCCESS,
     MY_POSTS_FAIL,
     MY_POSTS_REQUEST,
-    MY_POSTS_SUCCESS
+    MY_POSTS_SUCCESS, UPDATE_CAPTION_FAIL, UPDATE_CAPTION_REQUEST, UPDATE_CAPTION_SUCCESS
 } from "../constants/postConstants";
 import {CLEAR_ERRORS} from "../constants/userConstants";
 
@@ -24,6 +24,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case ADD_COMMENT_REQUEST:
         case DELETE_COMMENT_REQUEST:
         case CREATE_POST_REQUEST:
+        case UPDATE_CAPTION_REQUEST:
             return {
                 loading: true
             }
@@ -31,6 +32,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case ADD_COMMENT_SUCCESS:
         case DELETE_COMMENT_SUCCESS:
         case CREATE_POST_SUCCESS:
+        case UPDATE_CAPTION_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -40,6 +42,7 @@ export const postReducer = (state = {}, action: userReducerActionType) => {
         case ADD_COMMENT_FAIL:
         case DELETE_COMMENT_FAIL:
         case CREATE_POST_FAIL:
+        case UPDATE_CAPTION_FAIL:
             return {
                 ...state,
                 loading: false,

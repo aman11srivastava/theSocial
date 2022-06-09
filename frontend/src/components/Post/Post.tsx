@@ -12,6 +12,7 @@ import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
 import {getPostsOfFollowing} from "../../redux/actions/userActions";
 import LikesModal from "../LikesModal/LikesModal";
 import CommentsModal from "../CommentsModal/CommentsModal";
+import UpdateCaptionModal from "../UpdateCaptionModal/UpdateCaptionModal";
 
 interface PostProps extends postStructure {
     isDelete: boolean
@@ -23,6 +24,7 @@ export const Post = (props: PostProps) => {
     const [liked, setLiked] = useState<boolean>(false);
     const [alert, setAlert] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
+    const [openUpdateCaptionModal, setOpenUpdateCaptionModal] = useState<boolean>(false);
     const [commentsToggle, setCommentsToggle] = useState<boolean>(false);
     const dispatch: Dispatch<any> = useDispatch();
     const {message, error} = useSelector((state: RootStateOrAny) => state?.post);
@@ -63,7 +65,7 @@ export const Post = (props: PostProps) => {
         <>
             <div className={"post"}>
                 <div className="postHeader">
-                    {isAccount && <Button><MoreVert/></Button>}
+                    {isAccount && <Button onClick={() => setOpenUpdateCaptionModal(!openUpdateCaptionModal)}><MoreVert/></Button>}
                 </div>
                 <img src={postImage} alt={"post image " + postId}/>
                 <div className="postDetails">
@@ -99,6 +101,7 @@ export const Post = (props: PostProps) => {
                 </div>
                 <LikesModal likes={likes} open={open} setOpen={setOpen}/>
                 <CommentsModal comments={comments} isAccount={isAccount} postId={postId} commentsToggle={commentsToggle} setCommentsToggle={setCommentsToggle}/>
+                <UpdateCaptionModal prevCaption={caption} postId={postId} open={openUpdateCaptionModal} setOpen={setOpenUpdateCaptionModal}/>
             </div>
             {alert && <Stack sx={{width: '100%'}} spacing={2}>
                 <Alert severity="success">{message}</Alert>

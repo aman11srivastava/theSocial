@@ -18,3 +18,7 @@ export const MY_POSTS_FAIL: string = "MY_POSTS_FAIL";
 export const CREATE_POST_REQUEST: string = "CREATE_POST_REQUEST";
 export const CREATE_POST_SUCCESS: string = "CREATE_POST_SUCCESS";
 export const CREATE_POST_FAIL: string = "CREATE_POST_FAIL";
+
+export const UPDATE_CAPTION_REQUEST: string = "UPDATE_CAPTION_REQUEST";
+export const UPDATE_CAPTION_SUCCESS: string = "UPDATE_CAPTION_SUCCESS";
+export const UPDATE_CAPTION_FAIL: string = "UPDATE_CAPTION_FAIL";

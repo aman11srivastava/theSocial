@@ -47,3 +47,9 @@ export type postStructureType = {
 
 export const following: string = "following";
 export const followers: string = "followers";
+
+export const application_json_config = {
+    headers: {
+        "Content-Type": "application/json"
+    }
+}
