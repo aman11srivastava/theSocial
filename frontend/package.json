@@ -55,5 +55,5 @@
   "devDependencies": {
     "@types/react-alert": "^7.0.2"
   },
-  "proxy": "http://192.168.29.105:4000"
+  "proxy": "http://localhost:4000"
 }

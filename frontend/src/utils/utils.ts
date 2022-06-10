@@ -12,7 +12,7 @@ export type userRegistrationObj = {
     email: string
     name: string
     password: string
-    image?: imageStructure
+    avatar: string | ArrayBuffer | null
 }
 
 export interface userStructure {
