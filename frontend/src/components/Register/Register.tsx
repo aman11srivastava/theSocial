@@ -17,14 +17,14 @@ export const Register = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    function handleRegistration(e: SyntheticEvent) {
+    async function handleRegistration(e: SyntheticEvent) {
         e.preventDefault();
         const user: userRegistrationObj = initialState;
         user.name = state.name;
         user.email = state.email;
         user.password = state.password;
         user.avatar = state.avatar;
-        dispatch(register(user));
+        await dispatch(register(user));
         navigate("/account");
     }
 
