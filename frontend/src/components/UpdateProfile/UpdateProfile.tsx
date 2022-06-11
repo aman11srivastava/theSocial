@@ -5,7 +5,7 @@ import {Avatar, Button, Typography} from "@mui/material";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import {CLEAR_ERRORS} from "../../redux/constants/userConstants";
 import {NavigateFunction, useNavigate} from "react-router-dom";
-import {updateProfile} from "../../redux/actions/userActions";
+import {loadUser, updateProfile} from "../../redux/actions/userActions";
 
 export const UpdateProfile = () => {
     const {user, loading, error} = useSelector((state: RootStateOrAny) => state?.user);
@@ -41,6 +41,7 @@ export const UpdateProfile = () => {
         user.email = state.email;
         user.avatar = state.avatar;
         await dispatch(updateProfile(user));
+        await dispatch(loadUser());
         navigate('/')
     }
 
