@@ -1,7 +1,7 @@
 import React, {ChangeEvent, SyntheticEvent, useState} from "react";
 import './login.css';
 import {Button, Typography} from "@mui/material";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions/userActions";
 
@@ -9,12 +9,10 @@ export const Login = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
     function handleLogin(e: SyntheticEvent) {
         e.preventDefault();
         dispatch(login(email, password));
-        navigate("account");
     }
 
     return (
