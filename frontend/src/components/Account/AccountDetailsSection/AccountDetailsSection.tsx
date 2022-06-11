@@ -26,7 +26,7 @@ export const AccountDetailsSection = () => {
             {
                 loading ? <Loader color={"black"}/> : (
                     <>
-                        <Avatar src={user?.avatar.url} sx={{height: '8vmax', width: '8vmax'}}/>
+                        <Avatar src={user?.avatar && user?.avatar.url} sx={{height: '8vmax', width: '8vmax'}}/>
                         <Typography variant={"h5"}>{user?.name}</Typography>
                         <div>
                             <button onClick={() => setIsFollowersOpen(!isFollowersOpen)}>
@@ -34,7 +34,7 @@ export const AccountDetailsSection = () => {
                                     Followers
                                 </Typography>
                             </button>
-                            <Typography>{user?.followers.length || 0}</Typography>
+                            <Typography>{user?.followers?.length || 0}</Typography>
                         </div>
                         <div>
                             <button onClick={() => setIsFollowingOpen(!isFollowingOpen)}>
@@ -42,13 +42,13 @@ export const AccountDetailsSection = () => {
                                     Following
                                 </Typography>
                             </button>
-                            <Typography>{user?.following.length || 0}</Typography>
+                            <Typography>{user?.following?.length || 0}</Typography>
                         </div>
                         <div>
                             <Typography>
                                 Posts
                             </Typography>
-                            <Typography>{user?.posts.length || 0}</Typography>
+                            <Typography>{user?.posts?.length || 0}</Typography>
                         </div>
                         <Button variant={"contained"} onClick={logoutHandler}>Logout</Button>
                         <Link to={`/update/profile`}>Edit Profile</Link>

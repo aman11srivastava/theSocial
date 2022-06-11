@@ -1,7 +1,7 @@
 import React, {ChangeEvent, SyntheticEvent, useEffect, useState} from "react";
 import {userRegistrationObj} from "../../utils/utils";
 import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, NavigateFunction, useNavigate} from "react-router-dom";
 import {register} from "../../redux/actions/userActions";
 import {Avatar, Button, Typography} from "@mui/material";
 import './register.css';
@@ -16,7 +16,7 @@ export const Register = () => {
     }
     const [state, setState] = useState<userRegistrationObj>(initialState);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const navigate: NavigateFunction = useNavigate();
     const {loading, error} = useSelector((state: RootStateOrAny) => state?.user)
 
     async function handleRegistration(e: SyntheticEvent) {

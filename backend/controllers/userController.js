@@ -150,7 +150,6 @@ exports.logoutUser = async (req, res) => {
 exports.uppdatePassword = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("+password").populate("posts followers following");
-    console.log(req.body);
     const { oldPassword, newPassword } = req.body;
     if (!oldPassword || !newPassword) {
       return res.status(400).json({
@@ -182,12 +181,21 @@ exports.uppdatePassword = async (req, res) => {
 exports.updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    const { name, email } = req.body;
+    const { name, email, avatar } = req.body;
     if (name) {
       user.name = name;
     }
     if (email) {
       user.email = email;
+    }
+    if (avatar) {
+      await cloudinary.v2.uploader.destroy(user.avatar.public_id);
+
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: "theSocial/avatars",
+      });
+      user.avatar.public_id = myCloud.public_id;
+      user.avatar.url = myCloud.secure_url;
     }
     await user.save();
     return res.status(200).json({

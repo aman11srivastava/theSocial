@@ -9,6 +9,7 @@ import {loadUser} from "./redux/actions/userActions";
 import Home from "./components/Home/Home";
 import Account from "./components/Account/Account";
 import CreatePost from "./components/CreatePost/CreatePost";
+import UpdateProfile from "./components/UpdateProfile/UpdateProfile";
 
 function App() {
     const dispatch: Dispatch<any> = useDispatch();
@@ -26,6 +27,7 @@ function App() {
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/account"} element={isAuthenticated ? <Account/> : <Login/>}/>
                 <Route path={"/newpost"} element={isAuthenticated ? <CreatePost/> : <Login/>}/>
+                <Route path={"/update/profile"} element={isAuthenticated ? <UpdateProfile/> : <Login/>}/>
             </Routes>
         </Router>
     );

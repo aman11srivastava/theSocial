@@ -21,7 +21,7 @@ export const FollowInfoModal = (props: FollowersModalProps) => {
                     <Typography variant={"h4"}>
                         {field.charAt(0).toUpperCase() + field.slice(1)}
                     </Typography>
-                    {user && user[field].length > 0 ? user[field].map((f: userStructure) => (
+                    {user && user[field] && user[field].length > 0 ? user[field].map((f: userStructure) => (
                         <User key={f._id} name={f?.name} userId={f?._id}
                               avatar={f?.avatar?.url}/>
                     )) : (

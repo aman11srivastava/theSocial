@@ -55,7 +55,7 @@ export const Post = (props: PostProps) => {
 
     useEffect(() => {
         likes.forEach(item => {
-            if (item?._id.toString() === user?._id.toString()) {
+            if (item?._id?.toString() === user?._id?.toString()) {
                 setLiked(true);
             }
         })

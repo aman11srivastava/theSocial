@@ -16,16 +16,15 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS, UPDATE_PROFILE_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 import axios from "axios";
-import {userRegistrationObj} from "../../utils/utils";
+import {application_json_config, updateProfileObjType, userRegistrationObj} from "../../utils/utils";
 
 export const login = (email: string, password: string) => async (dispatch: Dispatch) => {
     try {
         dispatch({type: LOGIN_REQUEST});
-        const config = {headers: {"Content-Type": "application/json"}};
-        const {data} = await axios.post('/api/login', {email, password}, config);
+        const {data} = await axios.post('/api/login', {email, password}, application_json_config);
         dispatch({type: LOGIN_SUCCESS, payload: data.user});
     } catch (err: any) {
         dispatch({type: LOGIN_FAIL, payload: err.response.data.message});
@@ -35,9 +34,7 @@ export const login = (email: string, password: string) => async (dispatch: Dispa
 export const register = (user: userRegistrationObj) => async (dispatch: Dispatch) => {
     try {
         dispatch({type: REGISTER_REQUEST});
-        const config = {headers: {"Content-Type": "application/json"}};
-        // const config = {headers: {"Content-Type": "multipart/form-data"}};
-        const {data} = await axios.post('/api/register', user, config);
+        const {data} = await axios.post('/api/register', user, application_json_config);
         dispatch({type: REGISTER_SUCCESS, payload: data.user});
     } catch (err: any) {
         dispatch({type: REGISTER_FAIL, payload: err.response.data.message});
@@ -88,10 +85,18 @@ export const deleteProfile = () => async (dispatch: Dispatch) => {
     try {
         dispatch({type: DELETE_PROFILE_REQUEST});
         const {data} = await axios.delete(`/api/delete/me`);
-        console.log(data)
         dispatch({type: DELETE_PROFILE_SUCCESS, payload: data?.message})
     } catch (err: any) {
-        console.log("Error error ", err)
         dispatch({type: DELETE_PROFILE_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const updateProfile = (user: updateProfileObjType) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: UPDATE_PROFILE_REQUEST});
+        const {data} = await axios.put('/api/update/profile', user, application_json_config);
+        dispatch({type: UPDATE_PROFILE_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: UPDATE_PROFILE_FAIL, payload: err?.response?.data?.message});
     }
 }

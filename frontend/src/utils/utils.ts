@@ -53,3 +53,10 @@ export const application_json_config = {
         "Content-Type": "application/json"
     }
 }
+
+export type updateProfileObjType = {
+    name: string
+    email: string
+    avatar: string | ArrayBuffer | null
+    avatarPrev?: string | ArrayBuffer | null
+}

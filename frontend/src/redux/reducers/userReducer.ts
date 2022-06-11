@@ -16,7 +16,7 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS
+    REGISTER_SUCCESS, UPDATE_PROFILE_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 import {userReducerActionType, userStructure} from "../../utils/utils";
 
@@ -44,6 +44,7 @@ export const userReducer = (state: initialStateType = initialState, action: user
         case LOAD_USER_REQUEST:
         case LOGOUT_REQUEST:
         case DELETE_PROFILE_REQUEST:
+        case UPDATE_PROFILE_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false
@@ -51,6 +52,7 @@ export const userReducer = (state: initialStateType = initialState, action: user
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case LOAD_USER_SUCCESS:
+        case UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -65,6 +67,12 @@ export const userReducer = (state: initialStateType = initialState, action: user
                 loading: false,
                 isAuthenticated: false,
                 user: null,
+                error: action.payload
+            }
+        case UPDATE_PROFILE_FAIL:
+            return {
+                ...state,
+                loading: false,
                 error: action.payload
             }
         case DELETE_PROFILE_SUCCESS:
