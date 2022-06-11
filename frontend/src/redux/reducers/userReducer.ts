@@ -2,7 +2,7 @@ import {
     ALL_USERS_FAIL,
     ALL_USERS_REQUEST,
     ALL_USERS_SUCCESS,
-    CLEAR_ERRORS,
+    CLEAR_ERRORS, DELETE_PROFILE_FAIL, DELETE_PROFILE_REQUEST, DELETE_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -43,6 +43,7 @@ export const userReducer = (state: initialStateType = initialState, action: user
         case REGISTER_REQUEST:
         case LOAD_USER_REQUEST:
         case LOGOUT_REQUEST:
+        case DELETE_PROFILE_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false
@@ -64,6 +65,19 @@ export const userReducer = (state: initialStateType = initialState, action: user
                 loading: false,
                 isAuthenticated: false,
                 user: null,
+                error: action.payload
+            }
+        case DELETE_PROFILE_SUCCESS:
+            return {
+                loading: false,
+                isAuthenticated: false,
+                user: null
+            }
+        case DELETE_PROFILE_FAIL:
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
                 error: action.payload
             }
         case LOGOUT_SUCCESS:

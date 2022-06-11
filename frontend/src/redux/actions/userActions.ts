@@ -2,7 +2,7 @@ import {Dispatch} from "redux";
 import {
     ALL_USERS_FAIL,
     ALL_USERS_REQUEST,
-    ALL_USERS_SUCCESS,
+    ALL_USERS_SUCCESS, DELETE_PROFILE_FAIL, DELETE_PROFILE_REQUEST, DELETE_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -81,5 +81,17 @@ export const logoutUser = () => async (dispatch: Dispatch) => {
         dispatch({type: LOGOUT_SUCCESS, payload: data?.message});
     } catch (err: any) {
         dispatch({type: LOGOUT_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const deleteProfile = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: DELETE_PROFILE_REQUEST});
+        const {data} = await axios.delete(`/api/delete/me`);
+        console.log(data)
+        dispatch({type: DELETE_PROFILE_SUCCESS, payload: data?.message})
+    } catch (err: any) {
+        console.log("Error error ", err)
+        dispatch({type: DELETE_PROFILE_FAIL, payload: err?.response?.data?.message});
     }
 }

@@ -6,6 +6,7 @@ import Loader from "../../Loader/Loader";
 import FollowInfoModal from "./FollowInfoModal";
 import {followers, following} from "../../../utils/utils";
 import {logoutUser} from "../../../redux/actions/userActions";
+import DeleteProfileModal from "../../DeleteProfileModal/DeleteProfileModal";
 
 export const AccountDetailsSection = () => {
     const {user, loading} = useSelector((state: RootStateOrAny) => state?.user);
@@ -13,6 +14,7 @@ export const AccountDetailsSection = () => {
     const navigate: NavigateFunction = useNavigate();
     const [isFollowersOpen, setIsFollowersOpen] = useState<boolean>(false);
     const [isFollowingOpen, setIsFollowingOpen] = useState<boolean>(false);
+    const [deleteProfileModalOpen, setDeleteProfileModalOpen] = useState<boolean>(false);
 
     async function logoutHandler() {
         await dispatch(logoutUser());
@@ -51,13 +53,15 @@ export const AccountDetailsSection = () => {
                         <Button variant={"contained"} onClick={logoutHandler}>Logout</Button>
                         <Link to={`/update/profile`}>Edit Profile</Link>
                         <Link to={`/update/password`}>Change Password</Link>
-                        <Button variant={"text"} style={{color: 'red', marginTop: '2vmax'}}>
+                        <Button onClick={() => setDeleteProfileModalOpen(!deleteProfileModalOpen)} variant={"text"}
+                                style={{color: 'red', marginTop: '2vmax'}}>
                             Delete my Profile
                         </Button>
                         <FollowInfoModal errorMessage={"You don't have any followers!"} field={followers}
                                          open={isFollowersOpen} setOpen={setIsFollowersOpen}/>
                         <FollowInfoModal errorMessage={"You are not following anyone!"} field={following}
                                          open={isFollowingOpen} setOpen={setIsFollowingOpen}/>
+                        <DeleteProfileModal setOpen={setDeleteProfileModalOpen} open={deleteProfileModalOpen}/>
                     </>
                 )
             }

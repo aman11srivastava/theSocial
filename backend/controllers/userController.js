@@ -2,6 +2,7 @@ const User = require("../models/UserModel");
 const Post = require("../models/PostModel");
 const sendEmail = require("../middlewares/sendEmail");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -13,13 +14,16 @@ exports.registerUser = async (req, res) => {
         message: "User with this email already exists",
       });
     }
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: "theSocial/avatars"
+    });
     user = await User.create({
       name,
       email,
       password,
       avatar: {
-        public_id: "random public id",
-        url: "https://avatars.githubusercontent.com/u/55241832?s=400&u=cb9bf3abe12b33adae417fc09b28fd2dc6afe5df&v=4",
+        public_id: myCloud.public_id,
+        url: myCloud.secure_url,
       },
     });
     const token = await user.generateToken();
@@ -206,6 +210,7 @@ exports.deleteProfile = async (req, res) => {
     const following = user.following;
     const userId = user._id;
 
+    await cloudinary.v2.uploader.destroy(user.avatar.public_id);
     await user.remove();
 
     // Logout user
@@ -215,24 +220,45 @@ exports.deleteProfile = async (req, res) => {
     });
     for (let i = 0; i < postsOfUser.length; i++) {
       const post = await Post.findById(postsOfUser[i]);
+      await cloudinary.v2.uploader.destroy(post.image.public_id);
       await post.remove();
     }
 
     for (let i = 0; i < followers.length; i++) {
       const follower = await User.findById(followers[i]);
-      const index = follower.following.index(userId);
+      const index = follower.following.indexOf(userId);
       follower.following.splice(index, 1);
       await follower.save();
     }
 
     for (let i = 0; i < following.length; i++) {
       const follows = await User.findById(following[i]);
-      const index = follows.followers.index(userId);
+      const index = follows.followers.indexOf(userId);
       follows.followers.splice(index, 1);
       await follows.save();
     }
 
-    return res.status(200).json({
+    const allPosts = await Post.find();
+    for (let i = 0; i < allPosts.length; i++) {
+      const post = await Post.findById(allPosts[i]._id);
+      for (let j = 0; j < post.comments.length; j++) {
+        if (post.comments[j].user === userId) {
+          post.comments.splice(j, 1);
+        }
+      }
+      await post.save();
+    }
+    for (let i = 0; i < allPosts.length; i++) {
+      const post = await Post.findById(allPosts[i]._id);
+      for (let j = 0; j < post.likes.length; j++) {
+        if (post.likes[j] === userId) {
+          post.likes.splice(j, 1);
+        }
+      }
+      await post.save();
+    }
+
+    res.status(200).json({
       success: true,
       message: "User deleted successfully",
     });

@@ -23,3 +23,7 @@ export const CLEAR_ERRORS: string = "CLEAR_ERRORS";
 export const LOGOUT_REQUEST: string = "LOGOUT_REQUEST";
 export const LOGOUT_SUCCESS: string = "LOGOUT_SUCCESS";
 export const LOGOUT_FAIL: string = "LOGOUT_FAIL";
+
+export const DELETE_PROFILE_REQUEST: string = "DELETE_PROFILE_REQUEST";
+export const DELETE_PROFILE_SUCCESS: string = "DELETE_PROFILE_SUCCESS";
+export const DELETE_PROFILE_FAIL: string = "DELETE_PROFILE_FAIL";
