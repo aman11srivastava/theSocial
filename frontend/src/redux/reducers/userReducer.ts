@@ -5,7 +5,7 @@ import {
     CLEAR_ERRORS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS,
+    DELETE_PROFILE_SUCCESS, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -20,7 +20,7 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, UPDATE_PASSWORD_FAIL,
+    REGISTER_SUCCESS, RESET_PASSWORD_FAIL, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PROFILE_FAIL,
@@ -50,6 +50,8 @@ export const userReducer = (state: initialStateType = initialState, action: user
     switch (action.type) {
         case LOGIN_REQUEST:
         case REGISTER_REQUEST:
+        case FORGOT_PASSWORD_REQUEST:
+        case RESET_PASSWORD_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false
@@ -94,6 +96,20 @@ export const userReducer = (state: initialStateType = initialState, action: user
             return {
                 ...state,
                 loading: false,
+                error: action.payload
+            }
+        case FORGOT_PASSWORD_SUCCESS:
+        case RESET_PASSWORD_SUCCESS:
+            return {
+                loading: false,
+                isAuthenticated: false,
+                message: action.payload
+            }
+        case FORGOT_PASSWORD_FAIL:
+        case RESET_PASSWORD_FAIL:
+            return {
+                loading: false,
+                isAuthenticated: false,
                 error: action.payload
             }
         case DELETE_PROFILE_SUCCESS:

@@ -5,7 +5,7 @@ import {
     ALL_USERS_SUCCESS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS,
+    DELETE_PROFILE_SUCCESS, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -20,7 +20,7 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS,
+    REGISTER_SUCCESS, RESET_PASSWORD_FAIL, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_REQUEST, UPDATE_PASSWORD_SUCCESS,
     UPDATE_PROFILE_FAIL,
@@ -117,5 +117,25 @@ export const updatePassword = (oldPassword: string, newPassword: string) => asyn
         dispatch({type: UPDATE_PASSWORD_SUCCESS, payload: data?.message});
     } catch (err: any) {
         dispatch({type: UPDATE_PASSWORD_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const forgotPassword = (email: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: FORGOT_PASSWORD_REQUEST});
+        const {data} = await axios.post('/api/forgot/password', {email}, application_json_config);
+        dispatch({type: FORGOT_PASSWORD_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: FORGOT_PASSWORD_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const resetPassword = (token: string | undefined, password: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: RESET_PASSWORD_REQUEST});
+        const {data} = await axios.put(`/api/password/reset/${token}`, {password}, application_json_config);
+        dispatch({type: RESET_PASSWORD_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: RESET_PASSWORD_FAIL, payload: err?.response?.data?.message});
     }
 }

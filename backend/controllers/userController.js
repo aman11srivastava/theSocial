@@ -342,7 +342,10 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
     const resetURL = `${req.protocol}://${req.get(
       "host"
-    )}/api/password/reset/${resetPasswordToken}`;
+    )}/password/reset/${resetPasswordToken}`;
+    // const resetURL = `${req.protocol}://${req.get(
+    //     "host"
+    // )}/api/password/reset/${resetPasswordToken}`;
     const message = `Reset your theSocial account password by clicking on this link: \n \n ${resetURL}`;
     try {
       await sendEmail({
