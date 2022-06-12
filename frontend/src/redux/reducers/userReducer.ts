@@ -2,13 +2,17 @@ import {
     ALL_USERS_FAIL,
     ALL_USERS_REQUEST,
     ALL_USERS_SUCCESS,
-    CLEAR_ERRORS, DELETE_PROFILE_FAIL, DELETE_PROFILE_REQUEST, DELETE_PROFILE_SUCCESS,
+    CLEAR_ERRORS,
+    DELETE_PROFILE_FAIL,
+    DELETE_PROFILE_REQUEST,
+    DELETE_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
     LOGIN_FAIL,
     LOGIN_REQUEST,
-    LOGIN_SUCCESS, LOGOUT_FAIL,
+    LOGIN_SUCCESS,
+    LOGOUT_FAIL,
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     POST_OF_FOLLOWING_FAIL,
@@ -16,7 +20,12 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, UPDATE_PROFILE_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS
+    REGISTER_SUCCESS, UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
+    UPDATE_PROFILE_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 import {userReducerActionType, userStructure} from "../../utils/utils";
 
@@ -41,18 +50,21 @@ export const userReducer = (state: initialStateType = initialState, action: user
     switch (action.type) {
         case LOGIN_REQUEST:
         case REGISTER_REQUEST:
-        case LOAD_USER_REQUEST:
-        case LOGOUT_REQUEST:
-        case DELETE_PROFILE_REQUEST:
-        case UPDATE_PROFILE_REQUEST:
             return {
                 loading: true,
                 isAuthenticated: false
             }
+        case LOAD_USER_REQUEST:
+        case LOGOUT_REQUEST:
+        case DELETE_PROFILE_REQUEST:
+        case UPDATE_PROFILE_REQUEST:
+        case UPDATE_PASSWORD_REQUEST:
+            return {
+                loading: true
+            }
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
         case LOAD_USER_SUCCESS:
-        case UPDATE_PROFILE_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -69,7 +81,16 @@ export const userReducer = (state: initialStateType = initialState, action: user
                 user: null,
                 error: action.payload
             }
+        case UPDATE_PROFILE_SUCCESS:
+        case UPDATE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isAuthenticated: true,
+                message: action.payload
+            }
         case UPDATE_PROFILE_FAIL:
+        case UPDATE_PASSWORD_FAIL:
             return {
                 ...state,
                 loading: false,

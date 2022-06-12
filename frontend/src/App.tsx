@@ -10,6 +10,7 @@ import Home from "./components/Home/Home";
 import Account from "./components/Account/Account";
 import CreatePost from "./components/CreatePost/CreatePost";
 import UpdateProfile from "./components/UpdateProfile/UpdateProfile";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
 
 function App() {
     const dispatch: Dispatch<any> = useDispatch();
@@ -28,6 +29,7 @@ function App() {
                 <Route path={"/account"} element={isAuthenticated ? <Account/> : <Login/>}/>
                 <Route path={"/newpost"} element={isAuthenticated ? <CreatePost/> : <Login/>}/>
                 <Route path={"/update/profile"} element={isAuthenticated ? <UpdateProfile/> : <Login/>}/>
+                <Route path={"/update/password"} element={isAuthenticated ? <ChangePassword/> : <Login/>}/>
             </Routes>
         </Router>
     );

@@ -2,7 +2,10 @@ import {Dispatch} from "redux";
 import {
     ALL_USERS_FAIL,
     ALL_USERS_REQUEST,
-    ALL_USERS_SUCCESS, DELETE_PROFILE_FAIL, DELETE_PROFILE_REQUEST, DELETE_PROFILE_SUCCESS,
+    ALL_USERS_SUCCESS,
+    DELETE_PROFILE_FAIL,
+    DELETE_PROFILE_REQUEST,
+    DELETE_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -10,13 +13,19 @@ import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGOUT_FAIL,
-    LOGOUT_REQUEST, LOGOUT_SUCCESS,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
     POST_OF_FOLLOWING_FAIL,
     POST_OF_FOLLOWING_REQUEST,
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, UPDATE_PROFILE_FAIL, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS
+    REGISTER_SUCCESS,
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_REQUEST, UPDATE_PASSWORD_SUCCESS,
+    UPDATE_PROFILE_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 import axios from "axios";
 import {application_json_config, updateProfileObjType, userRegistrationObj} from "../../utils/utils";
@@ -98,5 +107,15 @@ export const updateProfile = (user: updateProfileObjType) => async (dispatch: Di
         dispatch({type: UPDATE_PROFILE_SUCCESS, payload: data?.message});
     } catch (err: any) {
         dispatch({type: UPDATE_PROFILE_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const updatePassword = (oldPassword: string, newPassword: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: UPDATE_PASSWORD_REQUEST});
+        const {data} = await axios.put('/api/update/password', {oldPassword, newPassword}, application_json_config);
+        dispatch({type: UPDATE_PASSWORD_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: UPDATE_PASSWORD_FAIL, payload: err?.response?.data?.message});
     }
 }
