@@ -11,7 +11,7 @@ const {
   getUserProfile,
   getAllUsers,
   forgotPassword,
-  resetPassword, getMyPosts,
+  resetPassword, getMyPosts, getUsersPosts,
 } = require("../controllers/userController");
 const { isAuthenticated } = require("../middlewares/auth");
 
@@ -29,6 +29,7 @@ router.route("/user/:id").get(isAuthenticated, getUserProfile);
 router.route("/users").get(isAuthenticated, getAllUsers);
 router.route("/forgot/password").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
-router.route("/my/posts").get(isAuthenticated, getMyPosts)
+router.route("/my/posts").get(isAuthenticated, getMyPosts);
+router.route('/posts/user/:id').get(isAuthenticated, getUsersPosts);
 
 module.exports = router;

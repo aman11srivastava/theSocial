@@ -14,6 +14,7 @@ import ChangePassword from "./components/ChangePassword/ChangePassword";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfile from "./components/UserProfile/UserProfile";
 
 function App() {
     const dispatch: Dispatch<any> = useDispatch();
@@ -35,6 +36,7 @@ function App() {
                 <Route path={"/update/password"} element={isAuthenticated ? <ChangePassword/> : <Login/>}/>
                 <Route path={"/forgot/password"} element={<ForgotPassword/>}/>
                 <Route path={"/password/reset/:token"} element={<ResetPassword/>}/>
+                <Route path={"/user/:id"} element={isAuthenticated ? <UserProfile/> : <Login/>}/>
             </Routes>
         </Router>
     );

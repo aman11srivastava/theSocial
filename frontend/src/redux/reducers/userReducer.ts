@@ -5,7 +5,11 @@ import {
     CLEAR_ERRORS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
+    DELETE_PROFILE_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS, GET_USER_PROFILE_FAIL,
+    GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -20,12 +24,19 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, RESET_PASSWORD_FAIL, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, UPDATE_PASSWORD_FAIL,
+    REGISTER_SUCCESS,
+    RESET_PASSWORD_FAIL,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
+    UPDATE_PASSWORD_FAIL,
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
-    UPDATE_PROFILE_SUCCESS
+    UPDATE_PROFILE_SUCCESS,
+    USER_POSTS_FAIL,
+    USER_POSTS_REQUEST,
+    USER_POSTS_SUCCESS
 } from "../constants/userConstants";
 import {userReducerActionType, userStructure} from "../../utils/utils";
 
@@ -193,5 +204,47 @@ export const postOfFollowingReducer = (state = {}, action: userReducerActionType
             }
         default:
             return state
+    }
+}
+
+export const userPostsReducer = (state = {}, action: userReducerActionType) => {
+    switch (action.type) {
+        case USER_POSTS_REQUEST:
+            return {
+                loading: true,
+            }
+        case USER_POSTS_SUCCESS:
+            return {
+                loading: false,
+                posts: action.payload
+            }
+        case USER_POSTS_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        default:
+            return state;
+    }
+}
+
+export const userProfileReducer = (state = {}, action: userReducerActionType) => {
+    switch (action.type) {
+        case GET_USER_PROFILE_REQUEST:
+            return {
+                loading: true,
+            }
+        case GET_USER_PROFILE_SUCCESS:
+            return {
+                loading: false,
+                user: action.payload
+            }
+        case GET_USER_PROFILE_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        default:
+            return state;
     }
 }

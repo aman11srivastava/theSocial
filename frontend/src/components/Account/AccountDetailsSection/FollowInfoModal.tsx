@@ -1,6 +1,5 @@
 import React from 'react';
 import {Dialog, Typography} from "@mui/material";
-import {RootStateOrAny, useSelector} from "react-redux";
 import User from "../../User/User";
 import {userStructure} from "../../../utils/utils";
 
@@ -9,11 +8,11 @@ interface FollowersModalProps {
     setOpen: (value: boolean) => void;
     field: string
     errorMessage: string
+    user: any
 }
 
 export const FollowInfoModal = (props: FollowersModalProps) => {
-    const {user} = useSelector((state: RootStateOrAny) => state?.user);
-    const {open, setOpen, field, errorMessage} = props;
+    const {open, setOpen, field, errorMessage, user} = props;
     return (
         <>
             <Dialog open={open} onClose={() => setOpen(!open)}>

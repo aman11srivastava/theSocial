@@ -11,6 +11,7 @@ import AccountDetailsSection from "./AccountDetailsSection/AccountDetailsSection
 export const Account = () => {
     const {posts, loading} = useSelector((state: RootStateOrAny) => state?.myPosts);
     const dispatch: Dispatch<any> = useDispatch();
+    const {user, loading: userLoading} = useSelector((state: RootStateOrAny) => state?.user);
 
     useEffect(() => {
         dispatch(getMyPosts())
@@ -34,7 +35,7 @@ export const Account = () => {
                         </div>
 
                         <div className={"accountright"}>
-                            <AccountDetailsSection/>
+                            <AccountDetailsSection user={user} loading={userLoading} isUserPage={false}/>
                         </div>
                     </div>
             }

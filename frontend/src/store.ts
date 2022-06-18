@@ -1,7 +1,13 @@
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
-import {allUsersReducer, postOfFollowingReducer, userReducer} from "./redux/reducers/userReducer";
+import {
+    allUsersReducer,
+    postOfFollowingReducer,
+    userPostsReducer,
+    userProfileReducer,
+    userReducer
+} from "./redux/reducers/userReducer";
 import {myPostsReducer, postReducer} from "./redux/reducers/postReducer";
 
 const reducer = combineReducers({
@@ -10,6 +16,8 @@ const reducer = combineReducers({
     postsOfFollowing: postOfFollowingReducer,
     post: postReducer,
     myPosts: myPostsReducer,
+    userPosts: userPostsReducer,
+    userProfile: userProfileReducer
 });
 
 let initialState = {};

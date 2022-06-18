@@ -5,7 +5,11 @@ import {
     ALL_USERS_SUCCESS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS, FORGOT_PASSWORD_FAIL, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS,
+    DELETE_PROFILE_SUCCESS,
+    FORGOT_PASSWORD_FAIL,
+    FORGOT_PASSWORD_REQUEST,
+    FORGOT_PASSWORD_SUCCESS,
+    GET_USER_PROFILE_FAIL, GET_USER_PROFILE_REQUEST, GET_USER_PROFILE_SUCCESS,
     LOAD_USER_FAIL,
     LOAD_USER_REQUEST,
     LOAD_USER_SUCCESS,
@@ -20,12 +24,19 @@ import {
     POST_OF_FOLLOWING_SUCCESS,
     REGISTER_FAIL,
     REGISTER_REQUEST,
-    REGISTER_SUCCESS, RESET_PASSWORD_FAIL, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS,
+    REGISTER_SUCCESS,
+    RESET_PASSWORD_FAIL,
+    RESET_PASSWORD_REQUEST,
+    RESET_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAIL,
-    UPDATE_PASSWORD_REQUEST, UPDATE_PASSWORD_SUCCESS,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
     UPDATE_PROFILE_FAIL,
     UPDATE_PROFILE_REQUEST,
-    UPDATE_PROFILE_SUCCESS
+    UPDATE_PROFILE_SUCCESS,
+    USER_POSTS_FAIL,
+    USER_POSTS_REQUEST,
+    USER_POSTS_SUCCESS
 } from "../constants/userConstants";
 import axios from "axios";
 import {application_json_config, updateProfileObjType, userRegistrationObj} from "../../utils/utils";
@@ -137,5 +148,26 @@ export const resetPassword = (token: string | undefined, password: string) => as
         dispatch({type: RESET_PASSWORD_SUCCESS, payload: data?.message});
     } catch (err: any) {
         dispatch({type: RESET_PASSWORD_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const getSingleUserPosts = (id: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: USER_POSTS_REQUEST});
+        const {data} = await axios.get(`/api/posts/user/${id}`);
+        dispatch({type: USER_POSTS_SUCCESS, payload: data?.posts});
+    } catch (err: any) {
+        dispatch({type: USER_POSTS_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const getSingleUserProfile = (id: string) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: GET_USER_PROFILE_REQUEST});
+        const {data} = await axios.get(`/api/user/${id}`);
+        dispatch({type: GET_USER_PROFILE_SUCCESS, payload: data?.user});
+    }
+    catch (err: any) {
+        dispatch({type: GET_USER_PROFILE_FAIL, payload: err?.response?.data?.message});
     }
 }
