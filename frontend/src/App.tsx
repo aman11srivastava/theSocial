@@ -13,6 +13,7 @@ import UpdateProfile from "./components/UpdateProfile/UpdateProfile";
 import ChangePassword from "./components/ChangePassword/ChangePassword";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const dispatch: Dispatch<any> = useDispatch();
