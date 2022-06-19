@@ -71,10 +71,10 @@ export const loadUser = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const getAllUsers = () => async (dispatch: Dispatch) => {
+export const getAllUsers = (name: string = "") => async (dispatch: Dispatch) => {
     try {
         dispatch({type: ALL_USERS_REQUEST});
-        const {data} = await axios.get('/api/users');
+        const {data} = await axios.get(`/api/users?name=${name}`);
         dispatch({type: ALL_USERS_SUCCESS, payload: data.users});
     } catch (err: any) {
         dispatch({type: ALL_USERS_FAIL, payload: err.response.data.message});
