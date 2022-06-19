@@ -5,7 +5,7 @@ import {
     CLEAR_ERRORS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS,
+    DELETE_PROFILE_SUCCESS, FOLLOW_USER_FAIL, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS, GET_USER_PROFILE_FAIL,
@@ -243,6 +243,31 @@ export const userProfileReducer = (state = {}, action: userReducerActionType) =>
             return {
                 loading: false,
                 error: action.payload
+            }
+        default:
+            return state;
+    }
+}
+
+export const followUnfollowUserReducer = (state = {}, action: userReducerActionType) => {
+    switch (action.type) {
+        case FOLLOW_USER_REQUEST:
+            return {
+                loading: true
+            }
+        case FOLLOW_USER_SUCCESS:
+            return {
+                loading: false,
+                message: action.payload
+            }
+        case FOLLOW_USER_FAIL:
+            return {
+                loading: false,
+                error: action.payload
+            }
+        case CLEAR_ERRORS:
+            return {
+                error: null
             }
         default:
             return state;

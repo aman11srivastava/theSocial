@@ -1,12 +1,13 @@
-import React, {Dispatch, useEffect, useState} from 'react';
+import React, {Dispatch, SyntheticEvent, useEffect, useState} from 'react';
 import {Avatar, Button, Typography} from "@mui/material";
 import {Link, NavigateFunction, useNavigate, useParams} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {RootStateOrAny, useDispatch, useSelector} from "react-redux";
 import Loader from "../../Loader/Loader";
 import FollowInfoModal from "./FollowInfoModal";
 import {followers, following, userStructure} from "../../../utils/utils";
-import {logoutUser} from "../../../redux/actions/userActions";
+import {followUnfollowUser, getSingleUserProfile, logoutUser} from "../../../redux/actions/userActions";
 import DeleteProfileModal from "../../DeleteProfileModal/DeleteProfileModal";
+import {toast, ToastContainer} from 'react-toastify';
 
 interface AccountDetailsSectionProps {
     isUserPage: boolean
@@ -16,6 +17,7 @@ interface AccountDetailsSectionProps {
 
 export const AccountDetailsSection = (props: AccountDetailsSectionProps) => {
     const {user, loading} = props;
+    const {message, user: me} = useSelector((state: RootStateOrAny) => state?.follow);
     const dispatch: Dispatch<any> = useDispatch();
     const navigate: NavigateFunction = useNavigate();
     const [isFollowersOpen, setIsFollowersOpen] = useState<boolean>(false);
@@ -25,20 +27,38 @@ export const AccountDetailsSection = (props: AccountDetailsSectionProps) => {
     const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
     const {id} = useParams();
 
+    console.log(id)
+
     async function logoutHandler() {
         await dispatch(logoutUser());
         navigate('/');
     }
 
-    function followHandler() {
+    async function followHandler(e: SyntheticEvent) {
+        e.preventDefault();
         setIsFollowing(!isFollowing);
+        await dispatch(followUnfollowUser(user?._id))
+        await getSingleUserProfile(id as string);
+        toast.success(message);
     }
 
     useEffect(() => {
-        if (user?._id === id) {
-            setIsMyProfile(true);
-        }
+        // if (user?._id === id) {
+        //     setIsMyProfile(true);
+        // }
     }, [])
+
+    useEffect(() => {
+        if (user) {
+            user.followers?.forEach((item) => {
+                console.log(item?._id, me?._id)
+                if (item?._id === me?._id) {
+                    setIsFollowing(true);
+                }
+                else setIsFollowing(false);
+            })
+        }
+    }, [dispatch, id, me?._id])
 
     return (
         <>
@@ -82,7 +102,7 @@ export const AccountDetailsSection = (props: AccountDetailsSectionProps) => {
                             </>
                         )}
                         {
-                            props.isUserPage && !isMyProfile && (
+                            props.isUserPage && (
                                 <Button style={{backgroundColor: isFollowing ? "#EF424B" : ""}}
                                         onClick={followHandler}
                                         variant={"contained"}>{
@@ -98,6 +118,7 @@ export const AccountDetailsSection = (props: AccountDetailsSectionProps) => {
                     </>
                 )
             }
+            <ToastContainer/>
         </>
     )
 }

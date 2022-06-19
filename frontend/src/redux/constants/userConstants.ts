@@ -51,3 +51,8 @@ export const USER_POSTS_FAIL: string = "USER_POSTS_FAIL";
 export const GET_USER_PROFILE_REQUEST: string = "GET_USER_PROFILE_REQUEST";
 export const GET_USER_PROFILE_SUCCESS: string = "GET_USER_PROFILE_SUCCESS";
 export const GET_USER_PROFILE_FAIL: string = "GET_USER_PROFILE_FAIL";
+
+export const FOLLOW_USER_REQUEST: string = "FOLLOW_USER_REQUEST";
+export const FOLLOW_USER_SUCCESS: string = "FOLLOW_USER_SUCCESS";
+export const FOLLOW_USER_FAIL: string = "FOLLOW_USER_FAIL";
+

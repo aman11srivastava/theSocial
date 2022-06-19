@@ -5,7 +5,7 @@ import {
     ALL_USERS_SUCCESS,
     DELETE_PROFILE_FAIL,
     DELETE_PROFILE_REQUEST,
-    DELETE_PROFILE_SUCCESS,
+    DELETE_PROFILE_SUCCESS, FOLLOW_USER_FAIL, FOLLOW_USER_REQUEST, FOLLOW_USER_SUCCESS,
     FORGOT_PASSWORD_FAIL,
     FORGOT_PASSWORD_REQUEST,
     FORGOT_PASSWORD_SUCCESS,
@@ -166,8 +166,17 @@ export const getSingleUserProfile = (id: string) => async (dispatch: Dispatch) =
         dispatch({type: GET_USER_PROFILE_REQUEST});
         const {data} = await axios.get(`/api/user/${id}`);
         dispatch({type: GET_USER_PROFILE_SUCCESS, payload: data?.user});
-    }
-    catch (err: any) {
+    } catch (err: any) {
         dispatch({type: GET_USER_PROFILE_FAIL, payload: err?.response?.data?.message});
+    }
+}
+
+export const followUnfollowUser = (id: string | undefined) => async (dispatch: Dispatch) => {
+    try {
+        dispatch({type: FOLLOW_USER_REQUEST});
+        const {data} = await axios.get(`/api/follow/${id}`);
+        dispatch({type: FOLLOW_USER_SUCCESS, payload: data?.message});
+    } catch (err: any) {
+        dispatch({type: FOLLOW_USER_FAIL, payload: err?.response?.data?.message});
     }
 }
