@@ -16,6 +16,7 @@ import ResetPassword from "./components/ResetPassword/ResetPassword";
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfile from "./components/UserProfile/UserProfile";
 import Search from "./components/Search/Search";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
     const dispatch: Dispatch<any> = useDispatch();
@@ -39,6 +40,7 @@ function App() {
                 <Route path={"/password/reset/:token"} element={<ResetPassword/>}/>
                 <Route path={"/user/:id"} element={isAuthenticated ? <UserProfile/> : <Login/>}/>
                 <Route path={"/search"} element={isAuthenticated ? <Search/> : <Login/>}/>
+                <Route path={"*"} element={<NotFound/>}/>
             </Routes>
         </Router>
     );
